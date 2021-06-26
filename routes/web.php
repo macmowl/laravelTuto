@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// category controller
+Route::get('/categories/all', [CategoryController::class, 'Allcategories'])->name('all.categories');
+Route::post('/categories/add', [CategoryController::class, 'AddCategory'])->name('store.category');
+Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
+Route::post('/category/update/{id}', [CategoryController::class, 'update']);
+Route::get('/softdelete/category/{id}', [CategoryController::class, 'softDelete']);
+Route::get('/pdelete/category/{id}', [CategoryController::class, 'permanentDelete']);
+Route::get('/category/restore/{id}', [CategoryController::class, 'restore']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    $users = User::all();
+    return view('dashboard', compact('users'));
 })->name('dashboard');
