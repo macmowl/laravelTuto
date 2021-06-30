@@ -34,7 +34,7 @@
                                             <div class="flex items-center">
                                                 @if ( $user->profile_photo_path)
                                                 <div class="mr-2">
-                                                    <img class="w-6 h-6 rounded-full" src="{{ $user->profile_photo_path }}"/>
+                                                    <img class="w-6 h-6 rounded-full" src="{{ asset('storage/' . $user->profile_photo_path) }}"/>
                                                 </div>
                                                 @endif
                                                 <span>{{ $user->name }}</span>

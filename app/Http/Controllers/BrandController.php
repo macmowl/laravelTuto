@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Brand;
+use App\Models\Multipic;
 use Illuminate\Support\Carbon;
+use Auth;
+use Image;
 
 class BrandController extends Controller
 {
@@ -23,12 +26,19 @@ class BrandController extends Controller
         ]);
 
         $brand_image = $request->file('brand_image');
-        $name_gen = hexdec(uniqid());
-        $img_extension = strtolower($brand_image->getClientOriginalExtension());
-        $img_name = $name_gen . '.' . $img_extension;
-        $up_location = 'images/brand/';
-        $last_img = $up_location.$img_name;
-        $brand_image->move($up_location, $last_img);
+        // $name_gen = hexdec(uniqid());
+        // $img_extension = strtolower($brand_image->getClientOriginalExtension());
+        // $img_name = $name_gen . '.' . $img_extension;
+        // $up_location = 'images/brand/';
+        // $last_img = $up_location.$img_name;
+        // $brand_image->move($up_location, $last_img);
+
+        $name_gen = hexdec(uniqid()) . '.' . $brand_image->getClientOriginalExtension();
+        Image::make($brand_image)->resize(300, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('images/brand/' . $name_gen);
+
+        $last_img = 'images/brand/' . $name_gen;
 
         Brand::insert([
             'brand_name' => $request->brand_name,
@@ -88,5 +98,35 @@ class BrandController extends Controller
 
         $brand = brand::find($id)->delete();
         return Redirect()->back()->with('success', 'Brand successfully deleted');
+    }
+
+    public function multipics() {
+        $images = Multipic::all();
+        return view('admin.multipics.index', compact('images'));
+    }
+
+    public function storePics(Request $request) {
+        $images = $request->file('image');
+
+        foreach($images as $image) {
+
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save('images/multi/' . $name_gen);
+
+            $last_img = 'images/multi/' . $name_gen;
+
+            Multipic::insert([
+                'image' => $last_img,
+                'created_at' => Carbon::now()
+            ]);
+        }
+        return Redirect()->back()->with('succes', 'Brand successfully added');
+    }
+
+    public function logout() {
+        Auth::logout();
+            return Redirect()->route('login')->with('success', 'Successfully logout');
     }
 }
