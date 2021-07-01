@@ -1,12 +1,6 @@
-<x-app-layout>
-<x-slot name="header">
-    <div class="flex justify-between">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Update brand
-        </h2>
-    </div>
+@extends('admin.admin_master')
 
-</x-slot>
+@section('admin')
 
 <div class="py-12">
         <div class="overflow-x-auto">
@@ -54,4 +48,4 @@
             </div>
         </div>
 </div>
-</x-app-layout>
+@endsection

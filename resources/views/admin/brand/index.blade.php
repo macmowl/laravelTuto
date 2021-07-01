@@ -1,13 +1,6 @@
-<x-app-layout>
-<x-slot name="header">
-    <div class="flex justify-between">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            All brand
-        </h2>
-        <p>Total brands <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">{{ count($brands) }}</span></p>
-    </div>
+@extends('admin.admin_master')
 
-</x-slot>
+@section('admin')
 
 <div class="py-12">
         <div class="overflow-x-auto">
@@ -39,7 +32,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 text-sm font-light">
-                                    @foreach ( $brands as $brand)
+                                    @foreach ($brands as $brand)
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                         <td class="py-3 px-6 text-left whitespace-nowrap">
                                             <span class="font-medium">{{ $brand->id }}</span>
@@ -50,7 +43,7 @@
                                             </div>
                                         </td>
                                         <td class="py-3 px-6 flex justify-center">
-                                            <img src="{{ asset($brand->brand_image)}}" alt="$brand->brand_name" class="h-8">
+                                            <img src="{{ asset($brand->brand_image) }}" alt="$brand->brand_name" class="h-4" width="100">
                                         </td>
                                         <td class="py-3 px-6 text-center">
                                             <span>{{ $brand->created_at->diffForHumans() ?? 'No data' }}</span>
@@ -104,4 +97,4 @@
             </div>
         </div>
 </div>
-</x-app-layout>
+@endsection
