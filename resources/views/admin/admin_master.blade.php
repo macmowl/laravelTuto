@@ -13,6 +13,7 @@
 {{ asset('backend/') }}
   <!-- PLUGINS CSS STYLE -->
   <link href="{{ asset('backend/assets/plugins/toaster/toastr.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
   <link href="{{ asset('backend/assets/plugins/nprogress/nprogress.css') }}" rel="stylesheet" />
   <link href="{{ asset('backend/assets/plugins/flag-icons/css/flag-icon.min.css') }}" rel="stylesheet"/>
   <link href="{{ asset('backend/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet" />
@@ -23,7 +24,7 @@
   <!-- SLEEK CSS -->
   <link id="sleek-css" rel="stylesheet" href="{{ asset('backend/assets/css/sleek.css') }}" />
 
-
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
   <!-- FAVICON -->
   <link href="{{ asset('backend/assets/img/favicon.png') }}" rel="shortcut icon" />
@@ -132,16 +133,17 @@
                   </li>
                   <!-- User Account -->
                   <li class="dropdown user-menu">
-                    <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                      <img src="{{ asset('backend/assets/img/user/user.png') }}" class="user-image" alt="User Image" />
-                      <span class="d-none d-lg-inline-block">Abdus Salam</span>
+                    <button href="#" class="dropdown-toggle nav-link w-auto" data-toggle="dropdown">
+                      <img src="{{ asset("storage/" . auth()->user()->profile_photo_path) }}" class="user-image inline" alt="User Image" />
+
+                      <span class="d-none d-lg-inline-block">{{ auth()->user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                       <!-- User image -->
                       <li class="dropdown-header">
-                        <img src="{{ asset('backend/assets/img/user/user.png') }}" class="img-circle" alt="User Image" />
+                        <img src="{{ asset("storage/" . auth()->user()->profile_photo_path) }}" class="rounded-full" alt="User Image" />
                         <div class="d-inline-block">
-                          Abdus Salam <small class="pt-1">abdus@gmail.com</small>
+                          {{ auth()->user()->name }} <small class="pt-1">{{ auth()->user()->email }}</small>
                         </div>
                       </li>
 
@@ -224,7 +226,44 @@
 <script src="{{ asset('backend/assets/js/date-range.js') }}"></script>
 <script src="{{ asset('backend/assets/js/map.js') }}"></script>
 <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<script>
+    @if(Session::has('message'))
+        toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": false,
+              "positionClass": "toast-bottom-right",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+            }
+        let type = "{{ Session::get('alert-type', 'info') }}"
+        switch(type) {
+            case 'info':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            case 'success':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            case 'warning':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            case 'error':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+        }
+    @endif
+</script>
 
 
 

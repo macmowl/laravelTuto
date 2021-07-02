@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\HomeController;
 use App\Models\User;
 
 /*
@@ -44,6 +45,11 @@ Route::group([
     Route::get('/brand/edit/{id}', [BrandController::class, 'edit']);
     Route::post('/brand/update/{id}', [BrandController::class, 'update']);
     Route::get('/brand/delete/{id}', [BrandController::class, 'delete']);
+
+    //Slider route
+    Route::get('/slider/all', [HomeController::class, 'AllSliders'])->name('all.slider');
+    Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
+    Route::post('/slider/add', [HomeController::class, 'StoreSlider'])->name('store.slider');
 
     // Multi image controller
     Route::get('/multi/image', [BrandController::class, 'multipics'])->name('all.multi');
